@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      width: 264px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+      color: #fff;
+      padding: 12px;
+    }
+
+    .power-section {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .power-btn {
+      flex: 1;
+      padding: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .power-btn.on {
+      background: linear-gradient(135deg, #00b894, #00cec9);
+      color: white;
+      box-shadow: 0 4px 15px rgba(0, 206, 201, 0.3);
+    }
+
+    .power-btn.off {
+      background: linear-gradient(135deg, #636e72, #2d3436);
+      color: #b2bec3;
+    }
+
+    .capture-btn {
+      padding: 12px;
+      background: rgba(52, 73, 94, 0.5);
+      border: 1px solid rgba(52, 152, 219, 0.3);
+      border-radius: 8px;
+      color: #74b9ff;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .capture-btn.active {
+      background: rgba(52, 152, 219, 0.2);
+      border-color: #74b9ff;
+      color: #74b9ff;
+      box-shadow: 0 0 10px rgba(116, 185, 255, 0.2);
+    }
+
+    .capture-btn:hover {
+      background: rgba(52, 152, 219, 0.3);
+    }
+
+    .section {
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #636e72;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    .profiles {
+      display: flex;
+      gap: 6px;
+    }
+
+    .profile-btn {
+      flex: 1;
+      height: 36px;
+      background: rgba(44, 62, 80, 0.4);
+      border: 1px solid rgba(52, 73, 94, 0.5);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #74b9ff;
+    }
+
+    .profile-btn svg {
+      stroke: currentColor;
+      fill: none;
+    }
+
+    .profile-btn:hover {
+      background: rgba(52, 73, 94, 0.6);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 6px;
+    }
+
+    .color-btn {
+      width: 36px;
+      height: 36px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .color-btn:hover {
+      transform: scale(1.15);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      z-index: 10;
+    }
+
+    .color-btn.active {
+      border: 2px solid #fff;
+    }
+
+    .custom-color-section {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .color-picker {
+      width: 40px;
+      height: 32px;
+      border: 1px solid rgba(52, 73, 94, 0.5);
+      border-radius: 6px;
+      cursor: pointer;
+      background: transparent;
+      padding: 2px;
+    }
+
+    .color-picker::-webkit-color-swatch {
+      border-radius: 4px;
+      border: none;
+    }
+
+    .apply-btn {
+      flex: 1;
+      padding: 8px;
+      background: rgba(39, 174, 96, 0.2);
+      border: 1px solid rgba(39, 174, 96, 0.5);
+      color: #00b894;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .apply-btn:hover {
+      background: rgba(39, 174, 96, 0.3);
+      border-color: #00b894;
+    }
+
+    .control-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .control-label {
+      font-size: 11px;
+      color: #b2bec3;
+      min-width: 50px;
+    }
+
+    .dropdown {
+      flex: 1;
+      padding: 6px 8px;
+      background: rgba(44, 62, 80, 0.4);
+      color: #fff;
+      border: 1px solid rgba(52, 73, 94, 0.5);
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .dropdown:focus {
+      border-color: #74b9ff;
+    }
+
+    .dropdown option {
+      background: #2d3436;
+    }
+
+    .slider-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .slider {
+      flex: 1;
+      -webkit-appearance: none;
+      height: 4px;
+      background: rgba(52, 73, 94, 0.5);
+      border-radius: 2px;
+      outline: none;
+    }
+
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px;
+      height: 14px;
+      background: #74b9ff;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .slider::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+      box-shadow: 0 0 10px rgba(116, 185, 255, 0.5);
+    }
+
+    .value-label {
+      font-size: 11px;
+      color: #74b9ff;
+      min-width: 30px;
+      text-align: right;
+      font-weight: 600;
+    }
+
+    .status {
+      position: fixed;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.8);
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 10px;
+      color: #00b894;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    .status.show {
+      opacity: 1;
+    }
+
+    .divider {
+      height: 1px;
+      background: rgba(52, 73, 94, 0.3);
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="power-section">
+    <button id="powerBtn" class="power-btn">Loading...</button>
+    <button id="captureBtn" class="capture-btn" title="Screen Capture">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+        <line x1="8" y1="21" x2="16" y2="21"></line>
+        <line x1="12" y1="17" x2="12" y2="21"></line>
+      </svg>
+      <span style="font-size: 11px;">CAPTURE</span>
+    </button>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Profiles</div>
+    <div class="profiles">
+      <button class="profile-btn" data-profile="work" title="Work">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+        </svg>
+      </button>
+      <button class="profile-btn" data-profile="movie" title="Movie">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
+          <line x1="7" y1="2" x2="7" y2="22"></line>
+          <line x1="17" y1="2" x2="17" y2="22"></line>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+          <line x1="2" y1="7" x2="7" y2="7"></line>
+          <line x1="2" y1="17" x2="7" y2="17"></line>
+          <line x1="17" y1="17" x2="22" y2="17"></line>
+          <line x1="17" y1="7" x2="22" y2="7"></line>
+        </svg>
+      </button>
+      <button class="profile-btn" data-profile="gaming" title="Gaming">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="6" y1="12" x2="10" y2="12"></line>
+          <line x1="8" y1="10" x2="8" y2="14"></line>
+          <line x1="15" y1="13" x2="15.01" y2="13"></line>
+          <line x1="18" y1="11" x2="18.01" y2="11"></line>
+          <rect x="2" y="6" width="20" height="12" rx="2" ry="2"></rect>
+        </svg>
+      </button>
+      <button class="profile-btn" data-profile="night" title="Night">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+      <button class="profile-btn" data-profile="party" title="Party">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Colors</div>
+    <div class="color-grid">
+      <button class="color-btn" style="background: rgb(255,147,41)" data-color="255,147,41"></button>
+      <button class="color-btn" style="background: rgb(255,69,58)" data-color="255,69,58"></button>
+      <button class="color-btn" style="background: rgb(48,209,88)" data-color="48,209,88"></button>
+      <button class="color-btn" style="background: rgb(10,132,255)" data-color="10,132,255"></button>
+      <button class="color-btn" style="background: rgb(191,90,242)" data-color="191,90,242"></button>
+      <button class="color-btn" style="background: rgb(255,214,10)" data-color="255,214,10"></button>
+      <button class="color-btn" style="background: rgb(100,210,255)" data-color="100,210,255"></button>
+      <button class="color-btn" style="background: rgb(255,55,95)" data-color="255,55,95"></button>
+      <button class="color-btn" style="background: rgb(255,255,255)" data-color="255,255,255"></button>
+      <button class="color-btn" style="background: rgb(142,142,147)" data-color="142,142,147"></button>
+      <button class="color-btn" style="background: rgb(50,50,50)" data-color="50,50,50"></button>
+      <button class="color-btn" style="background: rgb(0,0,0);border-color:rgba(255,255,255,0.3)" data-color="0,0,0"></button>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="custom-color-section">
+      <input type="color" id="colorPicker" class="color-picker" value="#ff9329">
+      <button id="applyColor" class="apply-btn">Apply Custom</button>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section">
+    <div class="control-row">
+      <span class="control-label">Effect</span>
+      <select id="effectSelect" class="dropdown">
+        <option value="">Static Color</option>
+        <option value="Rainbow swirl">Rainbow</option>
+        <option value="Breath">Breathing</option>
+        <option value="Candle">Candle</option>
+        <option value="Sparks">Sparks</option>
+        <option value="Plasma">Plasma</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="control-row">
+      <span class="control-label">Bright</span>
+      <div class="slider-container">
+        <input type="range" id="brightness" class="slider" min="0" max="100" value="100">
+        <span id="brightnessValue" class="value-label">100%</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="status" class="status"></div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

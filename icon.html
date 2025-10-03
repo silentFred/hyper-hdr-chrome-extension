@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #f0f0f0;
+      margin: 0;
+    }
+    canvas {
+      border: 1px solid #ccc;
+      image-rendering: crisp-edges;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" width="128" height="128"></canvas>
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    // Background gradient
+    const gradient = ctx.createRadialGradient(64, 64, 0, 64, 64, 64);
+    gradient.addColorStop(0, '#2c3e50');
+    gradient.addColorStop(1, '#1a252f');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, 128, 128);
+
+    // Draw LED strip outline
+    ctx.strokeStyle = '#34495e';
+    ctx.lineWidth = 8;
+    ctx.strokeRect(20, 20, 88, 88);
+
+    // Draw glowing LEDs
+    const colors = [
+      { x: 30, y: 30, color: '#ff9329' }, // warm amber
+      { x: 64, y: 30, color: '#00ff00' }, // green
+      { x: 98, y: 30, color: '#0099ff' }, // blue
+      { x: 98, y: 64, color: '#ff00ff' }, // magenta
+      { x: 98, y: 98, color: '#ffff00' }, // yellow
+      { x: 64, y: 98, color: '#00ffff' }, // cyan
+      { x: 30, y: 98, color: '#ff0066' }, // pink
+      { x: 30, y: 64, color: '#ffffff' }  // white
+    ];
+
+    colors.forEach(led => {
+      // Glow effect
+      const glow = ctx.createRadialGradient(led.x, led.y, 0, led.x, led.y, 15);
+      glow.addColorStop(0, led.color);
+      glow.addColorStop(0.5, led.color + '44');
+      glow.addColorStop(1, 'transparent');
+      ctx.fillStyle = glow;
+      ctx.fillRect(led.x - 20, led.y - 20, 40, 40);
+
+      // LED dot
+      ctx.fillStyle = led.color;
+      ctx.beginPath();
+      ctx.arc(led.x, led.y, 6, 0, Math.PI * 2);
+      ctx.fill();
+
+      // White highlight
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+      ctx.beginPath();
+      ctx.arc(led.x - 2, led.y - 2, 3, 0, Math.PI * 2);
+      ctx.fill();
+    });
+
+    // Center power symbol
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 4;
+    ctx.lineCap = 'round';
+
+    // Power symbol circle (with gap at top)
+    ctx.beginPath();
+    ctx.arc(64, 64, 12, 0.3 * Math.PI, 0.7 * Math.PI);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(64, 64, 12, 0.7 * Math.PI, 2.3 * Math.PI);
+    ctx.stroke();
+
+    // Power symbol line
+    ctx.beginPath();
+    ctx.moveTo(64, 52);
+    ctx.lineTo(64, 64);
+    ctx.stroke();
+
+    // Convert to data URL and log it
+    const dataURL = canvas.toDataURL('image/png');
+    console.log('Icon Data URL:', dataURL);
+
+    // Also create smaller versions
+    const sizes = [16, 48];
+    sizes.forEach(size => {
+      const smallCanvas = document.createElement('canvas');
+      smallCanvas.width = size;
+      smallCanvas.height = size;
+      const smallCtx = smallCanvas.getContext('2d');
+      smallCtx.imageSmoothingEnabled = true;
+      smallCtx.imageSmoothingQuality = 'high';
+      smallCtx.drawImage(canvas, 0, 0, size, size);
+      console.log(`Icon ${size}x${size}:`, smallCanvas.toDataURL('image/png'));
+    });
+  </script>
+</body>
+</html>
