@@ -1,6 +1,12 @@
 # HyperHDR Control Chrome Extension
 
-Control your HyperHDR ambient lighting system directly from Chrome.
+**Control HyperHDR ambient LED lights from Chrome** • Skydimo Compatible • WS2812B/SK6812 RGB Control
+
+[![HyperHDR](https://img.shields.io/badge/HyperHDR-v21.0.0.0-blue)](https://github.com/awawa-dev/HyperHDR)
+[![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-green)](https://github.com/silentFred/hyper-hdr-chrome-extension)
+[![License](https://img.shields.io/badge/License-Open%20Source-orange)](LICENSE)
+
+Control your HyperHDR ambient lighting system directly from Chrome instead of the clunky web interface. Perfect for Philips Ambilight alternatives, DIY bias lighting, and gaming setups.
 
 ## Quick Start
 
@@ -23,11 +29,12 @@ Download v21.0.0.0 from [GitHub](https://github.com/awawa-dev/HyperHDR/releases/
 
 ## Features
 
-- **🎨 Color Control** - 12 preset colors + custom color picker
-- **🎬 Smart Profiles** - Work, Movie, Gaming, Night, and Party modes
-- **🖥️ Screen Capture** - Sync lights with your screen content
-- **✨ Effects** - Rainbow, Breathing, Candle, and more
-- **🔆 Brightness** - Smooth 0-100% adjustment
+- **🎨 RGB LED Color Control** - 12 preset colors + custom color picker for WS2812B, SK6812, APA102
+- **🎬 Smart Profiles** - Work, Movie, Gaming, Night, and Party modes for ambient lighting
+- **🖥️ Screen Capture** - Sync LED strips with monitor content (Ambilight clone)
+- **✨ Effects** - Rainbow swirl, Breathing, Candle flicker, Sparks, Plasma animations
+- **🔆 Brightness** - Smooth 0-100% dimming control
+- **⚡ Fast JSON-RPC API** - Direct control without web UI lag
 
 ## Platform-Specific Installation
 
@@ -82,6 +89,33 @@ To change the server address, edit line 3 in `popup.js`:
 this.baseUrl = 'http://localhost:8090/json-rpc';
 ```
 
+## Keywords & Compatibility
+
+**LED Types**: WS2812B, WS2811, SK6812, APA102, HD107, SK9822, Skydimo
+**Alternatives to**: Philips Hue, Ambilight, Govee Immersion, LIFX, Nanoleaf
+**Works with**: WLED, Home Assistant, OpenRGB, Prismatik, Boblight
+**Use Cases**: Gaming RGB, TV bias lighting, monitor backlight, DIY Ambilight, streaming setup, PC ambient lighting
+
+## Why Choose This Extension?
+
+Unlike other solutions that require:
+- Complex WLED configuration
+- Expensive Philips Hue bridges
+- Slow Hyperion web interfaces
+- Command-line tools
+
+This Chrome extension gives you **instant control** with one click from your browser toolbar.
+
 ## License
 
 Open source for personal use with HyperHDR systems.
+
+## Related Projects
+
+- [HyperHDR](https://github.com/awawa-dev/HyperHDR) - The ambient lighting system
+- [WLED](https://github.com/Aircoookie/WLED) - WiFi LED control
+- [Hyperion.NG](https://github.com/hyperion-project/hyperion.ng) - Alternative to HyperHDR
+
+## Tags
+
+`hyperhdr` `chrome-extension` `rgb-led` `ws2812b` `sk6812` `ambilight` `bias-lighting` `ambient-lighting` `led-control` `smart-home` `home-automation` `gaming-setup` `skydimo` `diy-ambilight` `tv-backlight` `monitor-lighting` `json-rpc` `chrome-api`
